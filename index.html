@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image processing course work</title>
+</head>
+<body>
+    <!-- Image buttons -->
+    <div class="container d-flex justify-content-between mt-2">
+        <button class="files btn btn-primary" id="balloons.pgm">Balloons</button>
+        <button class="files btn btn-primary" id="columns.pgm">Columns</button>
+        <button class="files btn btn-primary" id="feep.pgm">Feep</button>
+        <button class="files btn btn-primary" id="flower_n.pgm">Flower_N</button>
+        <button class="files btn btn-primary" id="flower.pgm">Flower</button>
+        <button class="files btn btn-primary" id="lena_n1.pgm">Lena_N1</button>
+        <button class="files btn btn-primary" id="lena_n2.pgm">Lena_N2</button>
+        <button class="files btn btn-primary" id="lena.pgm">Lena</button>
+        <button class="files btn btn-primary" id="test.pgm">Test</button>
+        <button class="files btn btn-primary" id="tracks.pgm">Tracks</button>
+    </div>
+    <!-- Image buttons -->
+
+    <!-- Loading spinner -->
+    <div class="d-flex justify-content-center align-content-center mt-3">
+        <canvas id="canvas" width="0" height="0">
+        </canvas>
+        <img src="./images/Loading_icon.gif" alt="loading" id="loading" style="display: none;" srcset="">
+    </div>
+    <!-- Loading spinner -->
+
+    <!-- Histogram -->
+    <div class="d-flex justify-content-center align-content-center mt-2">
+        <canvas id="histogram" style="transform: rotate(180deg) rotateY(3.142rad); border: 1px solid black;" width="256" height="256">
+        </canvas>
+    </div>
+    <!-- Histogram -->
+
+    <!-- Threshhold slider / export button -->
+    <div class="d-flex justify-content-center align-items-center flex-column mt-2">
+        <input type="range" class="me-2" min="0" max="255" disabled value="127" id="threshhold"/>
+        <div>
+            <input type="checkbox" class="form-check-input me-2" checked="false" id="activateThreshhold">
+            <label class="form-check-label" for="flexCheckDefault">
+                Activate threshhold
+            </label>
+        </div>
+        <button class="btn btn-primary mt-2 mb-5" id="export">Export File</button>
+    </div>
+    <!-- Threshhold slider / export button -->
+
+</body>
+<script src="/app.js"></script>
+</html>
