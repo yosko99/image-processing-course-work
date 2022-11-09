@@ -3,9 +3,10 @@ import { extractPixelDataToHashMap } from './client/extractPixelData.js'
 import { updateHistogram } from './client/updateHistogram.js';
 import { fetchPGMData } from './client/fetchPGMData.js';
 import { savePGM } from './client/savePGM.js';
+import { drawImageData } from './client/drawImageData.js';
 
 const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d', { alpha: false });
 
 const threshholdCheckbox = document.getElementById('activateThreshhold');
 const thresholdSlider = document.getElementById('threshhold');
@@ -19,53 +20,43 @@ let width, height, pixels;
 let currentFile = '';
 let isThreshhold = false;
 
-const draw = async (refetch) => {
-    if (refetch) {
-        showLoadingImage(ctx);
-        const pgmData = await fetchPGMData(currentFile);
+let imageData;
 
-        width = pgmData.width;
-        height = pgmData.height;
-        pixels = pgmData.pixels;
+const draw = async () => {
+    showLoadingImage(ctx);
 
-        hideLoadingImage();
+    const pgmData = await fetchPGMData(currentFile);
 
-        ctx.canvas.width = width;
-        ctx.canvas.height = height;
-    }
+    width = pgmData.width;
+    height = pgmData.height;
+    pixels = pgmData.pixels;
 
-    const copyOfPixels = [...pixels];
+    ctx.canvas.width = width;
+    ctx.canvas.height = height;
 
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            let color = Number(copyOfPixels.shift());
+    imageData = ctx.getImageData(0, 0, width, height);
 
-            if (isThreshhold) {
-                color = thresholdSlider.value > color ? 0 : 255;
-            }
-
-            ctx.fillStyle = `rgb(${color}, ${color}, ${color})`;
-            ctx.fillRect(x, y, 1, 1);
-        }
-    }
+    hideLoadingImage();
 
     updateHistogram(extractPixelDataToHashMap(width, height, [...pixels]))
+    drawImageData(pixels, imageData, thresholdSlider.value, isThreshhold, ctx)
 }
 
 const main = () => {
     const buttons = document.querySelectorAll('.files');
 
     buttons.forEach((button) => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             const fileName = button.getAttribute('id');
 
             currentFile = fileName;
-            draw(true);
+
+            await draw();
         })
     })
 
     thresholdSlider.addEventListener('input', () => {
-        draw(false);
+        drawImageData(pixels, imageData, thresholdSlider.value, isThreshhold, ctx)
     })
 
     threshholdCheckbox.addEventListener('change', () => {
@@ -76,11 +67,11 @@ const main = () => {
             threshholdCheckbox.checked = false;
         }
 
-        draw(false);
+        drawImageData(pixels, imageData, thresholdSlider.value, isThreshhold, ctx)
     })
 
     exportButton.addEventListener('click', () => {
-        savePGM(width, height, pixels, isThreshhold, currentFile);
+        savePGM(width, height, pixels, isThreshhold, currentFile, ctx);
     })
 }
 
