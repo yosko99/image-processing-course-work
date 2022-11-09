@@ -1,0 +1,12 @@
+#loading {
+  display: none;
+}
+
+#histogram {
+  transform: rotate(180deg) rotateY(3.142rad);
+  border: 1px solid black;
+}
+
+#threshhold {
+  width: 256px;
+}
