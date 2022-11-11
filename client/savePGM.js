@@ -1,32 +1,30 @@
 const thresholdSlider = document.getElementById('threshhold');
 
-export const savePGM = (width, height, pixels, isThreshhold, currentFile) => {
+export const savePGM = (width, height, pixels, isThreshhold) => {
     if (pixels === undefined) {
         alert('Choose a image first');
     } else {
-        const copyOfPixels = [...pixels];
-
         let output = `P2\n${width} ${height}\n255`;
 
         for (let i = 0; i < pixels.length; i++) {
-            let color = Number(copyOfPixels.shift());
+            let currentColor = pixels[i];
 
             if (isThreshhold) {
-                color = thresholdSlider.value > color ? 0 : 255;
+                currentColor = thresholdSlider.value > currentColor ? 0 : 255;
             }
 
             if (i % 17 === 0) {
                 output += '\n';
             }
 
-            output += color + ' ';
+            output += currentColor + ' ';
         }
 
         const tempElement = document.createElement('a');
         const file = new Blob([output]);
 
         tempElement.href = URL.createObjectURL(file);
-        tempElement.download = currentFile;
+        tempElement.download = 'image.pgm';
         tempElement.click();
 
         URL.revokeObjectURL(tempElement.href);

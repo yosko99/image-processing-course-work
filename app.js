@@ -71,7 +71,7 @@ const main = () => {
     })
 
     exportButton.addEventListener('click', () => {
-        savePGM(width, height, pixels, isThreshhold, currentFile, ctx);
+        savePGM(width, height, pixels, isThreshhold);
     })
 }
 
