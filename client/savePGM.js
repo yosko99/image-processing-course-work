@@ -10,7 +10,7 @@ export const savePGM = (width, height, pixels, isThreshhold) => {
             let currentColor = pixels[i];
 
             if (isThreshhold) {
-                currentColor = thresholdSlider.value > currentColor ? 0 : 255;
+                currentColor = thresholdSlider.value >= currentColor ? 0 : 255;
             }
 
             if (i % 17 === 0) {

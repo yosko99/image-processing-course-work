@@ -5,7 +5,7 @@ export const drawImageData = (pixels, imageData, threshholdValue, isThreshhold, 
         let currentColor = pixels[index++];
 
         if (isThreshhold) {
-            currentColor = threshholdValue > currentColor ? 0 : 255;
+            currentColor = threshholdValue >= currentColor ? 0 : 255;
         }
 
         imageData.data[i] = currentColor;

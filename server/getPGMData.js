@@ -13,16 +13,26 @@ const getPGMData = async (filename) => {
         const data = await readFile(filename, 'utf8')
 
         const fileData = data.split(/\r\n|\r|\n/);
-        
-        const [width, height] = fileData[2].split(' ');
+
+        let width, height, grayScale, startIndex;
         const pixels = [];
 
-        for (let i = 4; i < fileData.length; i++) {
+        if (/[#]/.test(fileData[1])) {
+            [width, height] = fileData[2].split(' ');
+            grayScale = Number(fileData[3]);
+            startIndex = 4;
+        } else {
+            [width, height] = fileData[1].split(' ');
+            grayScale = Number(fileData[2]);
+            startIndex = 3;
+        }
+
+        for (let i = startIndex; i < fileData.length; i++) {
             const colors = fileData[i].split(' ');
 
             for (let j = 0; j < colors.length; j++) {
                 if (colors[j] !== '') {
-                    pixels.push(colors[j]);
+                    pixels.push(Number(colors[j]) + (255 - grayScale))
                 }
             }
         }

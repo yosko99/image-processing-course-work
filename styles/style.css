@@ -10,3 +10,7 @@
 #threshhold {
   width: 256px;
 }
+
+#canvas {
+  border: 1px solid black;
+}
