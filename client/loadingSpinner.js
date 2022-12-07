@@ -1,14 +1,14 @@
-export const showLoadingImage = (ctx) =>  {
-    ctx.canvas.width = 0;
-    ctx.canvas.height = 0;
+export const showLoadingImage = (ctx) => {
+  ctx.canvas.width = 0;
+  ctx.canvas.height = 0;
 
-    const loadingImage = document.querySelector('#loading');
+  const loadingImage = document.querySelector("#loading");
 
-    loadingImage.style.display = 'block';
-}
+  loadingImage.style.display = "block";
+};
 
 export const hideLoadingImage = () => {
-    const loadingImage = document.querySelector('#loading');
+  const loadingImage = document.querySelector("#loading");
 
-    loadingImage.style.display = 'none';
-}
+  loadingImage.style.display = "none";
+};
